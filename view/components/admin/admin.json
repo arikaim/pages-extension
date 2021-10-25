@@ -1,0 +1,13 @@
+{
+    "messages": {
+        "page": {
+            "title": "Confirm Remove",
+            "content": "Confirm remove page '<b><% title %></b>'."
+        }
+    },
+    "labels": {       
+        "editor": "Editor",       
+        "settings": "Settings",
+        "trash": "Trash"
+    }  
+}

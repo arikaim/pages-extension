@@ -1,0 +1,12 @@
+{
+    "include": {
+        "js": [
+            "pages::admin.posts"
+        ]
+    },
+    "access": {
+        "auth": "session",
+        "redirect": "/admin",
+        "permission": "ControlPanel:full"           
+    }
+}

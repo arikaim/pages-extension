@@ -1,0 +1,17 @@
+{
+    "page": {
+        "update": "Saved.",
+        "add": "Page was created successfully.",
+        "delete": "Page was deleted successfully.",
+        "restore": "Page was restored successfully."
+    },
+    "errors": {
+        "page": {
+            "exist": "Page with this name exist.",
+            "update": "Can't save page.",
+            "add": "Can't create page.",
+            "restore": "Can't restore page.",
+            "delete": "Can't delete page."
+        }
+    }
+}

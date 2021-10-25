@@ -1,0 +1,11 @@
+{% set items = [ 
+    { id: 'editor_button', title: labels.editor, component: 'pages::admin.pages', icon: 'edit', active: true },     
+    { id: 'settings_button', title: labels.settings, component: 'pages::admin.settings', icon: 'cogs' },      
+] %}
+
+{{  component('components:tabs',{ 
+        items: items,
+        menu: { component: 'system:admin.extensions.menu.actions', extension: 'pages' },
+        content: { component: 'pages::admin.pages' } 
+    })
+}}
