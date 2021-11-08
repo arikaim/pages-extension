@@ -37,6 +37,7 @@ class SitePagesSchema extends Schema
         $table->string('title')->nullable(false);       
         $table->status();
         $table->slug();
+        $table->metaTags();
         $table->dateCreated();
         $table->dateUpdated();
         // index

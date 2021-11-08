@@ -1,9 +1,9 @@
 {
     "labels": {
-        "name": "Name",
+        "title": "Title",
         "url": "Url"        
     },
     "placeholder": {
-        "name": "Enter Page Name"
+        "title": "Enter Page Title"
     }
 }

@@ -14,7 +14,7 @@ use Arikaim\Core\Controllers\ControlPanelApiController;
 use Arikaim\Core\Controllers\Traits\Status;
 
 /**
- * Blog pages control panel controler
+ * Site pages control panel controler
 */
 class PageControlPanel extends ControlPanelApiController
 {
@@ -53,15 +53,15 @@ class PageControlPanel extends ControlPanelApiController
     public function addController($request, $response, $data) 
     {         
         $this->onDataValid(function($data) {
-            $pageName = $data->get('name');
-            $page = Model::Pages('blog');
+            $title = $data->get('title');
+            $page = Model::SitePages('pages');
 
-            if ($page->hasPage($pageName) == true) {
+            if ($page->hasPage($title) == true) {
                 $this->error('errors.page.exist');
                 return false;
             }
             $result = $page->create([
-                'name' => $pageName
+                'name' => $title
             ]);
             $this->setResponse(\is_object($result),function() use($result) {                                                       
                 $this
@@ -86,9 +86,9 @@ class PageControlPanel extends ControlPanelApiController
     public function updateController($request, $response, $data) 
     {    
         $this->onDataValid(function($data) {
-            $pageName = $data->get('name');
+            $pageName = $data->get('title');
             $uuid = $data->get('uuid');
-            $model = Model::Pages('blog')->findById($uuid);
+            $model = Model::SitePages('pages')->findById($uuid);
 
             if ($model->hasPage($pageName,$uuid) == true) {
                 $this->error('errors.page.exist');
@@ -118,26 +118,26 @@ class PageControlPanel extends ControlPanelApiController
     }
 
     /**
-     * Soft delete page
+     * Delete page
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param Validator $data
      * @return Psr\Http\Message\ResponseInterface
     */
-    public function softDelete($request, $response, $data)
+    public function delete($request, $response, $data)
     { 
         $this->onDataValid(function($data) {                  
             $uuid = $data->get('uuid');
-            $page = Model::Pages('blog')->findById($uuid);
-            
-            $result = false;
-            if (\is_object($page) == true) {
-                $page->softDeletePosts();
-                $result = $page->softDelete();
+            $page = Model::SitePages('pages')->findById($uuid);
+                       
+            if (\is_object($page) == false) {
+                $this->error('errors.page.id');
+                return false;              
             } 
+            $result = $page->delete();
 
-            $this->setResponse($result,function() use($uuid) {              
+            $this->setResponse(($result !== false),function() use($uuid) {              
                 $this
                     ->message('page.delete')
                     ->field('uuid',$uuid);                  
@@ -148,67 +148,5 @@ class PageControlPanel extends ControlPanelApiController
             ->validate(); 
 
         return $this->getResponse();            
-    }
-
-    /**
-     * Restore page
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param Validator $data
-     * @return Psr\Http\Message\ResponseInterface
-    */
-    public function restore($request, $response, $data)
-    { 
-        $this->onDataValid(function($data) {                  
-            $uuid = $data->get('uuid');
-            $page = Model::Pages('blog')->findById($uuid);
-            
-            $result = false;
-            if (\is_object($page) == true) {
-                $page->restorePosts();
-                $result = $page->restore();
-            } 
-
-            $this->setResponse($result,function() use($uuid) {              
-                $this
-                    ->message('page.restore')
-                    ->field('uuid',$uuid);                  
-            },'errors.page.restore');
-        });
-        $data
-            ->addRule('text:min=2|required','uuid')           
-            ->validate(); 
-
-        return $this->getResponse();            
-    }
-
-    /**
-     * Empty trash
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param Validator $data
-     * @return Psr\Http\Message\ResponseInterface
-    */
-    public function emptyTrash($request, $response, $data)
-    { 
-        $this->onDataValid(function($data) {                  
-            $page = Model::Pages('blog');
-            $post = Model::Posts('blog');
-
-            $errors = 0;
-            $errors += ($page->clearDeleted() === false) ? 1 : 0;
-            $errors += ($post->clearDeleted() === false) ? 1 : 0;
-            $result = ($errors == 0);
-
-            $this->setResponse($result,function()  {              
-                $this
-                    ->message('trash.empty');                            
-            },'errors.trash.empty');
-        });
-        $data->validate(); 
-
-        return $this->getResponse();       
     }
 }

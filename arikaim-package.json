@@ -6,7 +6,7 @@
     "description": "Create, edit and publish custom site pages.",
     "short-description": "Create, edit and publish custom site pages.",
     "repository": "https://github.com/arikaim/pages-extension.git",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "position": "3",
     "admin-menu": {        
         "title": "Pages",

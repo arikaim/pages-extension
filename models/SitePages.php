@@ -46,6 +46,9 @@ class SitePages extends Model
         'title',       
         'status',
         'slug',
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
         'date_created',
         'date_updated'
     ];

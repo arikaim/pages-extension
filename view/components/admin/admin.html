@@ -3,7 +3,7 @@
     { id: 'settings_button', title: labels.settings, component: 'pages::admin.settings', icon: 'cogs' },      
 ] %}
 
-{{  component('components:tabs',{ 
+{{  component('semantic~tabs',{ 
         items: items,
         menu: { component: 'system:admin.extensions.menu.actions', extension: 'pages' },
         content: { component: 'pages::admin.pages' } 
